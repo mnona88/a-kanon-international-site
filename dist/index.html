@@ -150,7 +150,7 @@
 
       <section class="contact" id="contact" aria-labelledby="contact-title">
         <div class="contact-intro reveal">
-          <p class="overline">Start with the problem</p>
+          <p class="overline">LET’S START HERE</p>
           <h2 id="contact-title">Tell me what is not working.</h2>
           <p>If something in your business is not growing, not working, or taking too much time, let’s identify what matters first.</p>
           <div class="contact-actions">
@@ -159,7 +159,11 @@
           </div>
         </div>
 
-        <form class="contact-form reveal" id="contact-form" novalidate>
+        <form class="contact-form reveal" id="contact-form" action="https://formspree.io/f/mwlpkvjz" method="POST" novalidate>
+          <div hidden aria-hidden="true">
+            <label for="contact-website">Leave this field empty</label>
+            <input id="contact-website" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+          </div>
           <div class="field-row">
             <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required /></div>
             <div class="field"><label for="email">Work Email</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
