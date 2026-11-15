@@ -19,11 +19,27 @@ if (reducedMotion.matches || !("IntersectionObserver" in window)) {
   revealItems.forEach((item) => revealObserver.observe(item));
 }
 
-document.querySelector("#year").textContent = new Date().getFullYear();
+const year = document.querySelector("#year");
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
 
 const form = document.querySelector("#contact-form");
 const status = document.querySelector("#form-status");
 const submitButton = form.querySelector('button[type="submit"]');
+const messages = document.documentElement.lang === "ja"
+  ? {
+      invalid: "必須項目を入力してください。",
+      sending: "送信中です…",
+      success: "ありがとうございます。お問い合わせを送信しました。",
+      error: "送信できませんでした。時間をおいてもう一度お試しください。",
+    }
+  : {
+      invalid: "Please complete the required fields before continuing.",
+      sending: "Sending your message…",
+      success: "Thank you. Your message has been sent.",
+      error: "Your message could not be sent. Please try again in a moment.",
+    };
 let isSubmitting = false;
 
 form.addEventListener("submit", async (event) => {
@@ -41,7 +57,7 @@ form.addEventListener("submit", async (event) => {
   });
 
   if (firstInvalid) {
-    status.textContent = "Please complete the required fields before continuing.";
+    status.textContent = messages.invalid;
     firstInvalid.focus();
     return;
   }
@@ -49,7 +65,7 @@ form.addEventListener("submit", async (event) => {
   isSubmitting = true;
   submitButton.disabled = true;
   form.setAttribute("aria-busy", "true");
-  status.textContent = "Sending your message…";
+  status.textContent = messages.sending;
 
   try {
     const response = await fetch(form.action, {
@@ -66,11 +82,10 @@ form.addEventListener("submit", async (event) => {
 
     form.reset();
     fields.forEach((field) => field.removeAttribute("aria-invalid"));
-    status.textContent = "Thank you. Your message has been sent.";
+    status.textContent = messages.success;
   } catch (error) {
     console.error(error);
-    status.textContent =
-      "Your message could not be sent. Please try again in a moment.";
+    status.textContent = messages.error;
   } finally {
     isSubmitting = false;
     submitButton.disabled = false;
